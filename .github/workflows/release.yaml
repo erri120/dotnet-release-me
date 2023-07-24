@@ -21,6 +21,10 @@ jobs:
       - name: Print debug info
         run: dotnet --info
 
+      # https://github.com/AppImage/AppImageKit/wiki/FUSE#install-fuse
+      - name: Install FUSE
+        run: sudo add-apt-repository universe && sudo apt install libfuse2
+
       - name: Get PupNet
         working-directory: ${{ env.ProjectDir }}
         run: |
