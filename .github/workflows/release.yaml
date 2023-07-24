@@ -58,9 +58,9 @@ jobs:
 
       - name: Get PupNet
         working-directory: ${{ env.ProjectDir }}
-        shell: pwsh
+        shell: bash
         run: |
-          Invoke-WebRequest -Outfile PupNet.exe -Uri https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
+          wget -O PupNet.exe https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
           ./PupNet.exe --version
 
       - name: Create Setup
