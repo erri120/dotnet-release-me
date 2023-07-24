@@ -57,12 +57,11 @@ jobs:
         run: dotnet --info
 
       - name: Get PupNet
-        working-directory: ${{ env.ProjectDir }}
-        run: dotnet tool install KuiperZone.PupNet
+        run: dotnet tool install -g KuiperZone.PupNet
 
       - name: Create Setup
         working-directory: ${{ env.ProjectDir }}
-        run: dotnet tool run pupnet -y -k setup
+        run: pupnet -y -k setup
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
