@@ -42,7 +42,9 @@ jobs:
 
       - name: Build (Windows)
         if: runner.os == 'Windows'
-        run: dotnet msbuild -restore -p:Configuration=Release -p:AppxBundlePlatform=x64 -p:AppxPackageDir=${{ github.workspace }}\bin -p:AppxBundle=Always -p:UapAppxPackageBuildMode=StoreUpload -p:AppxPackageSigningEnabled=true -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }}
+        run: |
+          dotnet restore
+          dotnet msbuild -p:Configuration=Release -p:AppxBundlePlatform=x64 -p:AppxPackageDir=${{ github.workspace }}\bin -p:AppxBundle=Always -p:UapAppxPackageBuildMode=StoreUpload -p:AppxPackageSigningEnabled=true -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }}
 #        run: dotnet build ${{ env.ProjectFile }} -c Release --self-contained -p:UapAppxPackageBuildMode=StoreUpload -p:AppxBundle=Always -p:AppxPackageDir=${{ github.workspace}}/bin/win-x64 -p:AppxPackageSigningEnabled=true -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
 
       - name: Upload artifact
