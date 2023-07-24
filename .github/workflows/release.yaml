@@ -34,7 +34,7 @@ jobs:
 
       - name: Create AppImage
         working-directory: ${{ env.ProjectDir }}
-        run: ./PupNet.AppImage -k AppImage
+        run: ./PupNet.AppImage -y -k AppImage
 
       - name: Upload AppImage
         uses: actions/upload-artifact@v3
