@@ -10,12 +10,8 @@ env:
   ProjectDir: "src/Example.App"
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, windows-latest ]
+  build-linux:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -25,32 +21,51 @@ jobs:
       - name: Print debug info
         run: dotnet --info
 
-      - name: Build (Linux)
-        if: runner.os == 'Linux'
-        run: dotnet publish ${{ env.ProjectFile }} -c Release -r linux-x64 --output bin/linux-x64 --self-contained -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
-
-# TODO: update version in Package.appxmanfiest
-# https://learn.microsoft.com/en-us/windows/msix/desktop/azure-dev-ops
-
-      - name: Decode the PFX
-        if: runner.os == 'Windows'
-        shell: pwsh
+      - name: Get PupNet
+        working-directory: ${{ env.ProjectDir }}
         run: |
-          $certBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_BASE64 }}")
-          $certPath = Join-Path -Path $env:ProjectDir -ChildPath GitHubActionsWorkflow.pfx
-          [IO.File]::WriteAllBytes("$certPath", $certBytes)
+          wget -O PupNet.AppImage https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.1.6.0/PupNet-Deploy.x86_64.AppImage
+          chmod +x PupNet.AppImage
+          ./PupNet.AppImage --version
 
-      - name: Build (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          dotnet restore
-          dotnet msbuild -p:Configuration=Release -p:GenerateAppxPackageOnBuild=true -p:AppxBundlePlatform=x64 -p:AppxPackageDir=${{ github.workspace }}\bin -p:AppxBundle=Always -p:UapAppxPackageBuildMode=StoreUpload -p:AppxPackageSigningEnabled=true -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }}
-#        run: dotnet build ${{ env.ProjectFile }} -c Release --self-contained -p:UapAppxPackageBuildMode=StoreUpload -p:AppxBundle=Always -p:AppxPackageDir=${{ github.workspace}}/bin/win-x64 -p:AppxPackageSigningEnabled=true -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
+      - name: Create AppImage
+        working-directory: ${{ env.ProjectDir }}
+        run: ./PupNet.AppImage -k AppImage
 
-      - name: Upload artifact
+      - name: Upload AppImage
         uses: actions/upload-artifact@v3
         with:
-          name: Example.App-${{ runner.os }}-${{ github.sha }}
-          path: ${{ github.workspace }}/bin
+          name: Example.App-${{ github.sha }}-AppImage
+          path: ${{ env.ProjectDir}}/Deploy/OUT/*.AppImage
           if-no-files-found: error
           retention-days: 1
+
+#      - name: Build (Linux)
+#        if: runner.os == 'Linux'
+#        run: dotnet publish ${{ env.ProjectFile }} -c Release -r linux-x64 --output bin/linux-x64 --self-contained -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
+#
+## update version in Package.appxmanfiest
+## https://learn.microsoft.com/en-us/windows/msix/desktop/azure-dev-ops
+#
+#      - name: Decode the PFX
+#        if: runner.os == 'Windows'
+#        shell: pwsh
+#        run: |
+#          $certBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_BASE64 }}")
+#          $certPath = Join-Path -Path $env:ProjectDir -ChildPath GitHubActionsWorkflow.pfx
+#          [IO.File]::WriteAllBytes("$certPath", $certBytes)
+#
+#      - name: Build (Windows)
+#        if: runner.os == 'Windows'
+#        run: |
+#          dotnet restore
+#          dotnet msbuild -p:Configuration=Release -p:GenerateAppxPackageOnBuild=true -p:AppxBundlePlatform=x64 -p:AppxPackageDir=${{ github.workspace }}\bin -p:AppxBundle=Always -p:UapAppxPackageBuildMode=StoreUpload -p:AppxPackageSigningEnabled=true -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }}
+##        run: dotnet build ${{ env.ProjectFile }} -c Release --self-contained -p:UapAppxPackageBuildMode=StoreUpload -p:AppxBundle=Always -p:AppxPackageDir=${{ github.workspace}}/bin/win-x64 -p:AppxPackageSigningEnabled=true -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
+#
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: Example.App-${{ runner.os }}-${{ github.sha }}
+#          path: ${{ github.workspace }}/bin
+#          if-no-files-found: error
+#          retention-days: 1
