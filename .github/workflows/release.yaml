@@ -7,6 +7,7 @@ on:
 
 env:
   ProjectFile: "src/Example.App/Example.App.csproj"
+  ProjectDir: "src/Example.App"
 
 jobs:
   build:
@@ -28,9 +29,20 @@ jobs:
         if: runner.os == 'Linux'
         run: dotnet publish ${{ env.ProjectFile }} -c Release -r linux-x64 --output bin/linux-x64 --self-contained -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
 
+# TODO: update version in Package.appxmanfiest
+# https://learn.microsoft.com/en-us/windows/msix/desktop/azure-dev-ops
+
+      - name: Decode the PFX
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $certBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_BASE64 }}")
+          $certPath = Join-Path -Path $env:ProjectDir -ChildPath GitHubActionsWorkflow.pfx
+          [IO.File]::WriteAllBytes("$certPath", $certBytes)
+
       - name: Build (Windows)
         if: runner.os == 'Windows'
-        run: dotnet publish ${{ env.ProjectFile }} -c Release -r win-x64 --output bin/win-x64 --self-contained -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
+        run: dotnet publish ${{ env.ProjectFile }} -c Release -r win-x64 --output bin/win-x64 --self-contained -p:UapAppxPackageBuildMode=StoreUpload -p:AppxBundle=Always -p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx -p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -p:TieredCompilation=true -p:PublishReadyToRun=true -p:PublishSingleFile=true
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3

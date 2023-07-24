@@ -91,3 +91,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Keys and Certificates
+*.pem
+*.pfx
