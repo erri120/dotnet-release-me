@@ -60,7 +60,7 @@ jobs:
         working-directory: ${{ env.ProjectDir }}
         shell: bash
         run: |
-          wget -O PupNet.exe https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
+          curl -o PupNet.exe https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
           ./PupNet.exe --version
 
       - name: Create Setup
