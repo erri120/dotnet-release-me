@@ -58,14 +58,11 @@ jobs:
 
       - name: Get PupNet
         working-directory: ${{ env.ProjectDir }}
-        shell: bash
-        run: |
-          curl -o PupNet.exe https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
-          ./PupNet.exe --version
+        run: dotnet tool install KuiperZone.PupNet
 
       - name: Create Setup
         working-directory: ${{ env.ProjectDir }}
-        run: ./PupNet.exe -y -k setup
+        run: dotnet tool run pupnet -y -k setup
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
