@@ -58,15 +58,16 @@ jobs:
 
       - name: Get PupNet
         working-directory: ${{ env.ProjectDir }}
+        shell: pwsh
         run: |
-          wget -O PupNet.exe https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
+          Invoke-WebRequest -Outfile PupNet.exe -Uri https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
           ./PupNet.exe --version
 
       - name: Create Setup
         working-directory: ${{ env.ProjectDir }}
         run: ./PupNet.exe -y -k setup
 
-      - name: Upload AppImage
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: Example.App-${{ github.sha }}-Setup
