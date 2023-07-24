@@ -8,6 +8,7 @@ on:
 env:
   ProjectFile: "src/Example.App/Example.App.csproj"
   ProjectDir: "src/Example.App"
+  PupNetVersion: "1.6.0"
 
 jobs:
   build-linux:
@@ -28,7 +29,7 @@ jobs:
       - name: Get PupNet
         working-directory: ${{ env.ProjectDir }}
         run: |
-          wget -O PupNet.AppImage https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.1.6.0/PupNet-Deploy.x86_64.AppImage
+          wget -O PupNet.AppImage https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x86_64.AppImage
           chmod +x PupNet.AppImage
           ./PupNet.AppImage --version
 
@@ -41,6 +42,35 @@ jobs:
         with:
           name: Example.App-${{ github.sha }}-AppImage
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.AppImage
+          if-no-files-found: error
+          retention-days: 1
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      - name: Print debug info
+        run: dotnet --info
+
+      - name: Get PupNet
+        working-directory: ${{ env.ProjectDir }}
+        run: |
+          wget -O PupNet.exe https://github.com/kuiperzone/PupNet-Deploy/releases/download/v.${{ env.PupNetVersion }}/PupNet-Deploy.x64.exe
+          ./PupNet.exe --version
+
+      - name: Create Setup
+        working-directory: ${{ env.ProjectDir }}
+        run: ./PupNet.exe -y -k setup
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v3
+        with:
+          name: Example.App-${{ github.sha }}-Setup
+          path: ${{ env.ProjectDir}}/Deploy/OUT
           if-no-files-found: error
           retention-days: 1
 
