@@ -1,66 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<Package-->
+<!--        xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"-->
+<!--        xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"-->
+<!--        xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"-->
+<!--        xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"-->
+<!--        xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"-->
+<!--        xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"-->
+<!--        xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"-->
+<!--        xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"-->
+<!--        xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"-->
+<!--        xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"-->
+<!--        IgnorableNamespaces="uap uap2 uap3 rescap desktop desktop4 desktop5 uap10 com">-->
+<!--    &lt;!&ndash; https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-identity &ndash;&gt;-->
+<!--    <Identity Name="AvaloniaExample" ProcessorArchitecture="x64" Publisher="CN=erri120" Version="1.0.0.0" />-->
+
+<!--    &lt;!&ndash; https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-properties &ndash;&gt;-->
+<!--    <Properties>-->
+<!--        <DisplayName>Example Application</DisplayName>-->
+<!--        <PublisherDisplayName>erri120</PublisherDisplayName>-->
+<!--&lt;!&ndash;        <Logo>icon.png</Logo>&ndash;&gt;-->
+<!--    </Properties>-->
+
+<!--    &lt;!&ndash; https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-dependencies &ndash;&gt;-->
+<!--    <Dependencies>-->
+<!--        &lt;!&ndash; Note: MSIX support only exists since Windows 10 version 1709 (10.0.16299) &ndash;&gt;-->
+<!--        &lt;!&ndash; Note: 10.0.22621 is the latest SDK version (2023-07-24) &ndash;&gt;-->
+<!--        &lt;!&ndash; https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/ &ndash;&gt;-->
+<!--        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.16299" MaxVersionTested="10.0.22621" />-->
+<!--    </Dependencies>-->
+
+<!--    &lt;!&ndash; https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-resources &ndash;&gt;-->
+<!--    <Resources>-->
+<!--        &lt;!&ndash; During the build process, this will be replaced by all supported languages. See the docs for details. &ndash;&gt;-->
+<!--        <Resource Language="x-generate" />-->
+<!--    </Resources>-->
+
+<!--    &lt;!&ndash; https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-capabilities &ndash;&gt;-->
+<!--    <Capabilities>-->
+<!--        &lt;!&ndash; See https://learn.microsoft.com/en-us/windows/uwp/packaging/app-capability-declarations &ndash;&gt;-->
+<!--        <Capability Name="internetClient" />-->
+<!--        <Capability Name="codeGeneration" />-->
+
+<!--        <uap:Capability Name="documentsLibrary" />-->
+<!--        <rescap:Capability Name="runFullTrust" />-->
+<!--    </Capabilities>-->
+
+<!--    <Applications>-->
+<!--        &lt;!&ndash; https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-application &ndash;&gt;-->
+<!--        <Application-->
+<!--                Id="AvaloniaExample"-->
+<!--                Executable="$targetnametoken$.exe"-->
+<!--                EntryPoint="$targetentrypoint$"-->
+<!--                uap10:RuntimeBehavior="win32App"-->
+<!--                uap10:TrustLevel="mediumIL">-->
+<!--            &lt;!&ndash; https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-uap-visualelements &ndash;&gt;-->
+<!--            <uap:VisualElements-->
+<!--                    DisplayName="Avalonia Example"-->
+<!--                    Description="An example application using Avalonia"-->
+<!--                    BackgroundColor="black"-->
+<!--                    Square44x44Logo=""-->
+<!--                    Square150x150Logo=""-->
+<!--            />-->
+<!--        </Application>-->
+<!--    </Applications>-->
+<!--</Package>-->
+
 <Package
         xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-        xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
-        xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-        xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-        xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
-        xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"
-        xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
-        xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
-        IgnorableNamespaces="uap uap2 uap3 rescap desktop desktop4 desktop5 uap10 com">
-    <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-identity -->
-    <Identity Name="AvaloniaExample" ProcessorArchitecture="x64" Publisher="CN=erri120" Version="1.0.0.0" />
+        IgnorableNamespaces="uap rescap">
 
-    <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-properties -->
+    <Identity
+            Name="AvaloniaExample"
+            Publisher="CN=erri120"
+            Version="1.0.0.0" />
+
     <Properties>
-        <DisplayName>Example Application</DisplayName>
+        <DisplayName>Avalonia Example</DisplayName>
         <PublisherDisplayName>erri120</PublisherDisplayName>
-<!--        <Logo>icon.png</Logo>-->
+<!--        <Logo>Images\StoreLogo.png</Logo>-->
     </Properties>
 
-    <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-dependencies -->
     <Dependencies>
-        <!-- Note: MSIX support only exists since Windows 10 version 1709 (10.0.16299) -->
-        <!-- Note: 10.0.22621 is the latest SDK version (2023-07-24) -->
-        <!-- https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/ -->
-        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.16299" MaxVersionTested="10.0.22621" />
+        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.16299.0" MaxVersionTested="10.0.22621.0" />
     </Dependencies>
 
-    <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-resources -->
     <Resources>
-        <!-- During the build process, this will be replaced by all supported languages. See the docs for details. -->
-        <Resource Language="x-generate" />
+        <Resource Language="x-generate"/>
     </Resources>
 
-    <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-capabilities -->
-    <Capabilities>
-        <!-- See https://learn.microsoft.com/en-us/windows/uwp/packaging/app-capability-declarations -->
-        <Capability Name="internetClient" />
-        <Capability Name="codeGeneration" />
-
-        <uap:Capability Name="documentsLibrary" />
-        <rescap:Capability Name="runFullTrust" />
-    </Capabilities>
-
     <Applications>
-        <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-application -->
-        <Application
-                Id="AvaloniaExample"
-                Executable="$targetnametoken$.exe"
-                EntryPoint="$targetentrypoint$"
-                uap10:RuntimeBehavior="win32App"
-                uap10:TrustLevel="mediumIL">
-            <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-uap-visualelements -->
-            <uap:VisualElements
-                    DisplayName="Avalonia Example"
-                    Description="An example application using Avalonia"
-                    BackgroundColor="black"
-                    Square44x44Logo=""
-                    Square150x150Logo=""
-            />
+        <Application Id="App"
+                     Executable="$targetnametoken$.exe"
+                     EntryPoint="$targetentrypoint$">
+<!--            <uap:VisualElements-->
+<!--                    DisplayName="Avalonia Example"-->
+<!--                    Description=""-->
+<!--                    BackgroundColor="transparent"-->
+<!--                    Square150x150Logo="Images\Square150x150Logo.png"-->
+<!--                    Square44x44Logo="Images\Square44x44Logo.png">-->
+<!--                <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png"/>-->
+<!--                <uap:SplashScreen Image="Images\SplashScreen.png" />-->
+<!--                <uap:InitialRotationPreference>-->
+<!--                    <uap:Rotation Preference="landscape"/>-->
+<!--                    <uap:Rotation Preference="portrait"/>-->
+<!--                    <uap:Rotation Preference="landscapeFlipped"/>-->
+<!--                    <uap:Rotation Preference="portraitFlipped"/></uap:InitialRotationPreference>-->
+<!--            </uap:VisualElements>-->
         </Application>
     </Applications>
+
+    <Capabilities>
+        <Capability Name="internetClient" />
+        <rescap:Capability Name="runFullTrust" />
+    </Capabilities>
 </Package>
