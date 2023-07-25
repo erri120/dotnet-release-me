@@ -48,7 +48,7 @@ jobs:
           AppxBundle: Never
           AppxPackageSigningEnabled: True
           BuildMode: SideloadOnly
-          GenerateAppInstallerFile: False
+          GenerateAppInstallerFile: True
 
       - name: Remove PFX
         shell: pwsh
