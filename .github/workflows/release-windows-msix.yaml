@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 
 env:
+  ProjectName: "AvaloniaExample"
   SolutionFile: Example.sln
   WapProjectDir: src\AvaloniaExample.Package
   WapProjectFile: AvaloniaExample.Package.wapproj
