@@ -41,7 +41,7 @@ jobs:
       - name: Upload Archive
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ProjectName }}-${{ github.sha }}-Archive
+          name: ${{ env.ProjectName }}-Linux-Archive
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.zip
           if-no-files-found: error
           retention-days: 1
@@ -49,7 +49,7 @@ jobs:
       - name: Upload AppImage
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ProjectName }}-${{ github.sha }}-AppImage
+          name: ${{ env.ProjectName }}-Linux-AppImage
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.AppImage
           if-no-files-found: error
           retention-days: 1
@@ -79,7 +79,7 @@ jobs:
       - name: Upload Archive
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ProjectName }}-${{ github.sha }}-Archive
+          name: ${{ env.ProjectName }}-Windows-Archive
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.zip
           if-no-files-found: error
           retention-days: 1
@@ -87,7 +87,7 @@ jobs:
       - name: Upload Setup
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ProjectName }}-${{ github.sha }}-Setup
+          name: ${{ env.ProjectName }}-Windows-Setup
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.exe
           if-no-files-found: error
           retention-days: 1
