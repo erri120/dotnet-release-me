@@ -95,6 +95,15 @@
         <Application Id="App"
                      Executable="$targetnametoken$.exe"
                      EntryPoint="$targetentrypoint$">
+
+            <uap:VisualElements
+                    DisplayName="Avalonia Example"
+                    Description="An example application using Avalonia"
+                    BackgroundColor="black"
+                    Square44x44Logo=""
+                    Square150x150Logo=""
+            />
+
 <!--            <uap:VisualElements-->
 <!--                    DisplayName="Avalonia Example"-->
 <!--                    Description=""-->
