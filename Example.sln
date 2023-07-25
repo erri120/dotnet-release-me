@@ -4,7 +4,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solutionItems", ".solution
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
-		icon.png = icon.png
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
@@ -16,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{777B301A-4DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.App", "src\Example.App\Example.App.csproj", "{99AA2092-A196-46BC-BFF1-094B889BEC02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample", "src\AvaloniaExample\AvaloniaExample.csproj", "{AE602011-8193-4DA5-B21B-7194975BA098}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,11 +24,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{99AA2092-A196-46BC-BFF1-094B889BEC02} = {777B301A-4DA2-4550-81F4-95C15500CA09}
+		{AE602011-8193-4DA5-B21B-7194975BA098} = {777B301A-4DA2-4550-81F4-95C15500CA09}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

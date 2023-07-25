@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 env:
-  ProjectFile: "src/Example.App/Example.App.csproj"
-  ProjectDir: "src/Example.App"
-  PupNetVersion: "1.6.0"
+  ProjectFile: "src/AvaloniaExample/AvaloniaExample.csproj"
+  ProjectDir: "src/AvaloniaExample"
+  ProjectName: "AvaloniaExample"
 
 jobs:
   build-linux:
@@ -36,7 +36,7 @@ jobs:
       - name: Upload AppImage
         uses: actions/upload-artifact@v3
         with:
-          name: Example.App-${{ github.sha }}-AppImage
+          name: ${{ env.ProjectName }}-${{ github.sha }}-AppImage
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.AppImage
           if-no-files-found: error
           retention-days: 1
@@ -59,13 +59,15 @@ jobs:
         working-directory: ${{ env.ProjectDir }}
         run: pupnet -y -k setup
 
-      - name: Upload Artifact
+      - name: Upload Setup
         uses: actions/upload-artifact@v3
         with:
-          name: Example.App-${{ github.sha }}-Setup
+          name: ${{ env.ProjectName }}-${{ github.sha }}-Setup
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.exe
           if-no-files-found: error
           retention-days: 1
+
+# https://github.com/microsoft/github-actions-for-desktop-apps/tree/main
 
 #      - name: Decode the PFX
 #        if: runner.os == 'Windows'
