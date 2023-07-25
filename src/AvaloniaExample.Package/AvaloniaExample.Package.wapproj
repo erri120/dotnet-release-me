@@ -76,7 +76,8 @@
         <AppxManifest Include="Package.appxmanifest">
             <SubType>Designer</SubType>
         </AppxManifest>
-        <Content Include="..\AvaloniaExample\Assets\*" />
+        <Content Include="Assets\AvaloniaExample.44x44.png" />
+        <Content Include="Assets\AvaloniaExample.150x150.png" />
     </ItemGroup>
 
     <ItemGroup>
