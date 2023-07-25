@@ -7,9 +7,15 @@ on:
 
 env:
   PupNetVersion: "1.6.0"
+  Solution: "Example.sln"
   ProjectFile: "src/AvaloniaExample/AvaloniaExample.csproj"
   ProjectDir: "src/AvaloniaExample"
   ProjectName: "AvaloniaExample"
+  WapProjectFile: "src/AvaloniaExample.Package/AvaloniaExample.wapproj"
+  WapProjectDir: "src/AvaloniaExample.Package"
+  SigningCertificate: GitHubActionsWorkflow.pfx
+  App_Packages_Archive: AppPackages.zip
+  App_Packages_Directory: AppPackages
 
 jobs:
   build-linux:
@@ -56,14 +62,49 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
+    env:
+      Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
 
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: "recursive"
 
+      - name: Decode the PFX
+        shell: pwsh
+        run: |
+          $certBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_BASE64 }}")
+          $currentDirectory = Get-Location
+          $certPath = Join-Path -Path $currentDirectory -ChildPath $env:WapProjectDir -AdditionalChildPath $env:SigningCertificate
+          [IO.File]::WriteAllBytes("$certPath", $certBytes)
+
       - name: Print debug info
         run: dotnet --info
+
+      # Add MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Restore the application to populate the obj folder
+        run: msbuild $env:WapProjectFile /t:Restore /p:Configuration=Release /p:RuntimeIdentifier=win-x64
+
+      # Build the Windows Application Packaging project
+      - name: Build the Windows Application Packaging Project (wapproj)
+        run: msbuild $env:WapProjectFile /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.PFX_KEY }}
+        env:
+          AppxBundle: Never
+          BuildMode: SideloadOnly
+          Configuration: Release
+          TargetPlatform: x64
+
+      - name: Remove the .pfx
+        run: Remove-Item -path $env:WapProjectDir\$env:SigningCertificate
+
+      - name: Upload MSIX package
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.ProjectName }}-Windows-MSIX
+          path: ${{ env.WapProjectDir }}\${{ env.App_Packages_Directory }}
 
       - name: Get PupNet
         run: dotnet tool install -g KuiperZone.PupNet --version ${{ env.PupNetVersion }}
@@ -91,14 +132,3 @@ jobs:
           path: ${{ env.ProjectDir}}/Deploy/OUT/*.exe
           if-no-files-found: error
           retention-days: 1
-
-# https://github.com/microsoft/github-actions-for-desktop-apps/tree/main
-
-#      - name: Decode the PFX
-#        if: runner.os == 'Windows'
-#        shell: pwsh
-#        run: |
-#          $certBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_BASE64 }}")
-#          $certPath = Join-Path -Path $env:ProjectDir -ChildPath GitHubActionsWorkflow.pfx
-#          [IO.File]::WriteAllBytes("$certPath", $certBytes)
-
