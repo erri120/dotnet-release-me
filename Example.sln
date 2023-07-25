@@ -20,7 +20,9 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{99AA2092-A196-46BC-BFF1-094B889BEC02} = {777B301A-4DA2-4550-81F4-95C15500CA09}
@@ -31,9 +33,17 @@ Global
 		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Debug|x64.ActiveCfg = Debug|x64
+		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Debug|x64.Build.0 = Debug|x64
+		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Release|x64.ActiveCfg = Release|x64
+		{99AA2092-A196-46BC-BFF1-094B889BEC02}.Release|x64.Build.0 = Release|x64
 		{AE602011-8193-4DA5-B21B-7194975BA098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE602011-8193-4DA5-B21B-7194975BA098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE602011-8193-4DA5-B21B-7194975BA098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE602011-8193-4DA5-B21B-7194975BA098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Debug|x64.ActiveCfg = Debug|x64
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Debug|x64.Build.0 = Debug|x64
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Release|x64.ActiveCfg = Release|x64
+		{AE602011-8193-4DA5-B21B-7194975BA098}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal
