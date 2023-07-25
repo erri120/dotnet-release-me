@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
+    <!-- https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html -->
     <metadata_license>MIT</metadata_license>
 
     <!-- Note the use of macros to automate most (but not all) content below -->
@@ -14,19 +15,9 @@
     <launchable type="desktop-id">${APP_ID}.desktop</launchable>
 
     <description>
-        <!-- See AppDescription in configuration -->
         ${APPSTREAM_DESCRIPTION_XML}
-        <!--
-        <p>This is a longer application description in the default (English) language
-        which may span several short paragraphs. You may either specify it yourself
-        directly here, or have it populated automatically using the macro above.</p>
-        <p>IMPORTANT. If you wish to provide your own (default) description here, delete the
-        macro directly above. In either case, you may wish to provide other language
-        descriptions here also.</p>
-        -->
     </description>
 
-    <!-- Freedesktop Categories -->
     <categories>
         <category>${PRIME_CATEGORY}</category>
     </categories>
@@ -50,18 +41,7 @@
     -->
 
     <releases>
-        <!-- See AppChangeFile in configuration -->
         ${APPSTREAM_CHANGELOG_XML}
-        <!-- Or, uncomment below and delete macro directly above to specify changes yourself
-        <release version="1.0.0" date="2023-05-04">
-            <description>
-                <ul>
-                    <li>Added feature 1</li>
-                    <li>Added feature 2</li>
-                </ul>
-            </description>
-        </release>
-        -->
     </releases>
 
 </component>
