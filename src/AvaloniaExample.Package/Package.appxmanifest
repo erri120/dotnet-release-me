@@ -73,7 +73,7 @@
 
     <Identity
             Name="AvaloniaExample"
-            Publisher="CN=erri120"
+            Publisher="CN=erri120, O=Contoso Corporation, C=US"
             Version="1.0.0.0" />
 
     <Properties>
