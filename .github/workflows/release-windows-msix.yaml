@@ -1,0 +1,65 @@
+name: Release Windows (MSIX)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  SolutionFile: "Example.sln"
+  #ProjectFile: "src\AvaloniaExample\AvaloniaExample.csproj"
+  WapProjectDir: "src\AvaloniaExample.Package"
+  WapProjectFile: "AvaloniaExample.Package.wapproj"
+  AppPackagesDirectory: "AppPackages"
+  SigningCertificate: "GitHubActionsWorkflow.pfx"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true # Allows AddPAth and SetEnv commands
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      - name: Print debug info
+        run: dotnet --info
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.3.1
+        with:
+          msbuild-architecture: x64
+
+      - name: Decode PFX
+        shell: pwsh
+        run: |
+          $certBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_BASE64 }}")
+          $certPath = Join-Path -Path $env:WapProjectDir -ChildPath $env:SigningCertificate
+          [IO.File]::WriteAllBytes("$certPath", $certBytes)
+
+      - name: Restore dependencies
+        run: msbuild $env:SolutionFile /t:Restore /p:Configuration=Release /p:RuntimeIdentifier=win-x64
+
+      - name: Build
+        run: msbuild $env:SolutionFile /p:DefineConstants="INSTALLATION_METHOD_MSIX" /p:Configuration=Release /p:Platform=x64 /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:GenerateAppInstallerFile=$env:GenerateAppInstallerFile /p:AppxPackageSigningEnabled=$env:AppxPackageSigningEnabled /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.PFX_KEY }}
+        env:
+          AppxBundle: Never
+          AppxPackageSigningEnabled: True
+          BuildMode: SideloadOnly
+          GenerateAppInstallerFile: True
+
+      - name: Remove PFX
+        shell: pwsh
+        run: |
+          $certPath = Join-Path -Path $env:WapProjectDir -ChildPath $env:SigningCertificate
+          Remove-Item -Path $certPath
+
+      - name: Upload MSIX
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ProjectName }}-Windows-MSIX
+          path: ${{ env.WapProjectDir }}\${{ env.AppPackagesDirectory }}\*
+          if-no-files-found: error
+          retention-days: 1

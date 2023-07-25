@@ -1,0 +1,50 @@
+name: Release Windows (PupNet)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PupNetVersion: "1.6.0"
+  ProjectDir: "src/AvaloniaExample"
+  ProjectName: "AvaloniaExample"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      - name: Print debug info
+        run: dotnet --info
+
+      - name: Get PupNet
+        run: dotnet tool install -g KuiperZone.PupNet --version ${{ env.PupNetVersion }}
+
+      - name: Create Archive
+        working-directory: ${{ env.ProjectDir }}
+        run: pupnet -y -k zip -p DefineConstants=INSTALLATION_METHOD_ARCHIVE
+
+      - name: Create Setup
+        working-directory: ${{ env.ProjectDir }}
+        run: pupnet -y -k Setup -p DefineConstants=INSTALLATION_METHOD_INNO_SETUP
+
+      - name: Upload Archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ProjectName }}-Windows-Archive
+          path: ${{ env.ProjectDir}}/Deploy/OUT/*.zip
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload Setup
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ProjectName }}-Windows-Setup
+          path: ${{ env.ProjectDir}}/Deploy/OUT/*.exe
+          if-no-files-found: error
+          retention-days: 1
