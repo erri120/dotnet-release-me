@@ -6,12 +6,11 @@ on:
   workflow_dispatch:
 
 env:
-  SolutionFile: "Example.sln"
-  #ProjectFile: "src\AvaloniaExample\AvaloniaExample.csproj"
-  WapProjectDir: "src\AvaloniaExample.Package"
-  WapProjectFile: "AvaloniaExample.Package.wapproj"
-  AppPackagesDirectory: "AppPackages"
-  SigningCertificate: "GitHubActionsWorkflow.pfx"
+  SolutionFile: Example.sln
+  WapProjectDir: src\AvaloniaExample.Package
+  WapProjectFile: AvaloniaExample.Package.wapproj
+  AppPackagesDirectory: AppPackages
+  SigningCertificate: GitHubActionsWorkflow.pfx
 
 jobs:
   build:
