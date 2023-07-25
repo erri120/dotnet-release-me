@@ -11,7 +11,7 @@ env:
   ProjectFile: "src/AvaloniaExample/AvaloniaExample.csproj"
   ProjectDir: "src/AvaloniaExample"
   ProjectName: "AvaloniaExample"
-  WapProjectFile: "src/AvaloniaExample.Package/AvaloniaExample.wapproj"
+  WapProjectFile: "src/AvaloniaExample.Package/AvaloniaExample.Package.wapproj"
   WapProjectDir: "src/AvaloniaExample.Package"
   SigningCertificate: GitHubActionsWorkflow.pfx
   App_Packages_Archive: AppPackages.zip
@@ -105,6 +105,8 @@ jobs:
         with:
           name: ${{ env.ProjectName }}-Windows-MSIX
           path: ${{ env.WapProjectDir }}\${{ env.App_Packages_Directory }}
+          if-no-files-found: error
+          retention-days: 1
 
       - name: Get PupNet
         run: dotnet tool install -g KuiperZone.PupNet --version ${{ env.PupNetVersion }}
