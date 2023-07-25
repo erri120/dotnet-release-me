@@ -79,7 +79,7 @@
     <Properties>
         <DisplayName>Avalonia Example</DisplayName>
         <PublisherDisplayName>erri120</PublisherDisplayName>
-<!--        <Logo>Images\StoreLogo.png</Logo>-->
+        <Logo>Assets\AvaloniaExample.64x64.png</Logo>
     </Properties>
 
     <Dependencies>
