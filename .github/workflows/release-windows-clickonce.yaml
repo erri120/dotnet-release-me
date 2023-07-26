@@ -1,0 +1,47 @@
+name: Release Windows (ClickOnce)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  MageVersion: "7.0.0"
+  ProjectDir: "src/AvaloniaExample"
+  ProjectName: "AvaloniaExample"
+  ProjectExecutable: "AvaloniaExample.exe"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      - name: Print debug info
+        run: dotnet --info
+
+      - name: Publish
+        run: dotnet publish ${{ env.ProjectDir }}\${{ env.ProjectName}}.csproj -c Release -r win-x64 --output bin/win-x64 --self-contained -p:PublishReadyToRun=true -p:PublishSingleFile=true
+
+      - name: Get Mage
+        run: dotnet tool install -g Microsoft.DotNet.Mage --version ${{ env.MageVersion }}
+
+      - name: Add Launcher
+        run: dotnet mage -AddLauncher bin/win-x64/${{ env.ProjectExecutable }} bin
+
+      - name: Create application manifest
+        run: dotnet mage -new Application -ToFile bin/${{ env.ProjectName}}.manifest -FromDirectory bin -Name ${{ env.ProjectName }} -Version 1.0.0.0 -Processor X64
+
+      - name: Create deployment manifest
+        run: dotnet mage -new Deployment -ToFile bin/${{ env.ProjectName}}.application -AppManifest bin/${{ env.ProjectName}}.manifest -Version 1.0.0.0 -Install true -Publisher "erri120"
+
+      - name: Upload Files
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ProjectName }}-Windows-ClickOnce
+          path: bin/win-x64
+          if-no-files-found: error
+          retention-days: 1
