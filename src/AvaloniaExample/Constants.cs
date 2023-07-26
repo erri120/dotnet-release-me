@@ -12,6 +12,8 @@ public static class Constants
     public const string InstallationMethod = "Inno Setup";
 #elif INSTALLATION_METHOD_MSIX
     public const string InstallationMethod = "MSIX";
+#elif INSTALLATION_METHOD_CLICKONCE
+    public const string InstallationMethod = "ClickOnce";
 #else
     public const string InstallationMethod = "Manually";
 #endif
