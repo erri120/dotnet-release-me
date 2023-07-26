@@ -34,7 +34,7 @@ jobs:
         shell: pwsh
         run: |
           $certBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_BASE64 }}")
-          $certPath = Join-Path -Path $env:WapProjectDir -ChildPath $env:SigningCertificate
+          $certPath = Join-Path -Path $env:ProjectDir -ChildPath $env:SigningCertificate
           [IO.File]::WriteAllBytes("$certPath", $certBytes)
 
       - name: Create Setup
@@ -47,7 +47,7 @@ jobs:
       - name: Remove PFX
         shell: pwsh
         run: |
-          $certPath = Join-Path -Path $env:WapProjectDir -ChildPath $env:SigningCertificate
+          $certPath = Join-Path -Path $env:ProjectDir -ChildPath $env:SigningCertificate
           Remove-Item -Path $certPath
 
       - name: Upload Archive
