@@ -30,13 +30,13 @@ jobs:
         run: dotnet tool install -g Microsoft.DotNet.Mage --version ${{ env.MageVersion }}
 
       - name: Add Launcher
-        run: dotnet mage -AddLauncher bin/win-x64/${{ env.ProjectExecutable }} -TargetDirectory bin
+        run: dotnet mage -AddLauncher ${{ env.ProjectExecutable }} -TargetDirectory bin/win-x64
 
       - name: Create application manifest
-        run: dotnet mage -new Application -ToFile bin/${{ env.ProjectName}}.manifest -FromDirectory bin -Name ${{ env.ProjectName }} -Version 1.0.0.0 -Processor amd64
+        run: dotnet mage -new Application -ToFile bin/win-x64/${{ env.ProjectName}}.manifest -FromDirectory bin/win-x64 -Name "${{ env.ProjectName }}" -Version 1.0.0.0 -Processor amd64
 
       - name: Create deployment manifest
-        run: dotnet mage -new Deployment -ToFile bin/${{ env.ProjectName}}.application -AppManifest bin/${{ env.ProjectName}}.manifest -Version 1.0.0.0 -Install true -Publisher "erri120"
+        run: dotnet mage -new Deployment -ToFile bin/win-x64/${{ env.ProjectName}}.application -AppManifest bin/win-x64/${{ env.ProjectName}}.manifest -Version 1.0.0.0 -Install true -Publisher "erri120"
 
       - name: Upload Files
         uses: actions/upload-artifact@v3
