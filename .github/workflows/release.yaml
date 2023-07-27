@@ -28,6 +28,7 @@ jobs:
     outputs:
       TagVersion: ${{ steps.setOutputs.outputs.tagVersion }}
       RawVersion: ${{ steps.setOutputs.outputs.rawVersion }}
+      ProjectFile: ${{ steps.setOutputs.outputs.projectFile }}
 
     steps:
       - name: Set Outputs
@@ -41,13 +42,16 @@ jobs:
           $validation = [System.Version]::Parse($env.rawVersion)
           echo "tagVersion=$tagVersion" >> $env:GITHUB_OUTPUT
           echo "rawVersion=$rawVersion" >> $env:GITHUB_OUTPUT
+          echo "projectFile=${{ env.ProjectFile }}" >> $env:GITHUB_OUTPUT
 
   build-linux:
     needs: [ transformInputs ]
     uses: ./.github/workflows/build-linux-pupnet.yaml
     with:
       AppVersion: ${{ needs.transformInputs.outputs.RawVersion }}
-      ProjectFile: ${{ env.ProjectFile }}
+      # this is a bit of a hack, you can't use environment variables here
+      # https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
+      ProjectFile: ${{ needs.transformInputs.outputs.ProjectFile }}
       RetentionDays: 1
 
   release:
