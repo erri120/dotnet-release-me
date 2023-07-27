@@ -22,6 +22,16 @@ on:
         required: false
         default: 1
         description: "The amount of days for the artifact to persist"
+      BuildAppImage:
+        type: boolean
+        description: "Build an AppImage?"
+        required: false
+        default: true
+      BuildArchive:
+        type: boolean
+        description: "Build an Archive?"
+        required: false
+        default: true
     outputs:
       ArtifactNameLinuxArchive:
         description: "Name of the Artifact that contains the Linux Archive"
@@ -64,10 +74,12 @@ jobs:
         run: dotnet tool install -g KuiperZone.PupNet --version ${{ inputs.PupNetVersion }}
 
       - name: Create Archive
+        if: ${{ inputs.BuildArchive }}
         working-directory: ${{ steps.transformInputs.outputs.projectDir }}
         run: pupnet -y -v ${{ inputs.AppVersion }} -k zip -p DefineConstants=INSTALLATION_METHOD_ARCHIVE
 
       - name: Create AppImage
+        if: ${{ inputs.BuildAppImage }}
         working-directory: ${{ steps.transformInputs.outputs.projectDir }}
         run: pupnet -y -v ${{ inputs.AppVersion }} -k AppImage -p DefineConstants=INSTALLATION_METHOD_APPIMAGE
 
@@ -79,6 +91,7 @@ jobs:
           echo "artifactNameLinuxAppImage=${{ steps.transformInputs.outputs.projectName }}-${{ github.sha }}-Linux-AppImage" >> $env:GITHUB_OUTPUT
 
       - name: Upload Archive
+        if: ${{ inputs.BuildArchive }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.setOutputs.outputs.artifactNameLinuxArchive }}
@@ -87,6 +100,7 @@ jobs:
           retention-days: ${{ inputs.RetentionDays }}
 
       - name: Upload AppImage
+        if: ${{ inputs.BuildAppImage }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.setOutputs.outputs.artifactNameLinuxAppImage }}

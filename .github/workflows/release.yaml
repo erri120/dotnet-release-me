@@ -74,6 +74,10 @@ jobs:
           name: ${{ needs.build-linux.outputs.ArtifactNameLinuxAppImage }}
           path: bin/LinuxAppImage
 
+      - name: List Artifacts
+        shell: bash
+        run: tree bin
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
