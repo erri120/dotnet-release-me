@@ -48,7 +48,6 @@ jobs:
         env:
           ProjectFile: ${{ inputs.ProjectFile }}
         run: |
-          if (![System.IO.Path]::Exists("$env:ProjectFile")) { Write-Error "Project file doesn't exist!"; Exit 1 }
           $projectDir = [System.IO.Path]::GetDirectoryName("$env:ProjectFile")
           $projectName = [System.IO.Path]::GetFileNameWithoutExtension("$env:ProjectFile")
           echo "projectDir=$projectDir" >> $env:GITHUB_OUTPUT
