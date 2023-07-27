@@ -1,5 +1,5 @@
 name: Release
-run-name: Release ${{ github.event.inputs.version }}
+run-name: Release ${{ inputs.version }}
 
 on:
   workflow_dispatch:
@@ -50,7 +50,7 @@ jobs:
         id: setOutputs
         shell: pwsh
         env:
-          InputVersion: ${{ github.event.inputs.version }}
+          InputVersion: ${{ inputs.version }}
         run: |
           $tagVersion = $env:InputVersion.StartsWith('v') ? $env:InputVersion : "v" + $env:InputVersion
           $rawVersion = $env:InputVersion.StartsWith('v') ? $env:InputVersion.Substring(1) : $env:InputVersion
@@ -124,8 +124,8 @@ jobs:
         with:
           name: ${{ needs.transformInputs.outputs.RawVersion }}
           tag_name: ${{ needs.transformInputs.outputs.TagVersion }}
-          draft: ${{ github.event.inputs.draft }}
-          prerelease: ${{ github.event.inputs.prerelease }}
+          draft: ${{ inputs.draft }}
+          prerelease: ${{ inputs.prerelease }}
           files: bin/**/*
           fail_on_unmatched_files: true
 
@@ -135,7 +135,7 @@ jobs:
 
     steps:
       - name: Empty
-        if: github.event.inputs.release-nexus-mods
+        if: inputs.release-nexus-mods == true
         run: exit 0
 
   notify-discord:
@@ -144,7 +144,7 @@ jobs:
 
     steps:
       - name: Send Discord notification
-        if: github.event.inputs.notify-discord
+        if: inputs.notify-discord == true
         uses: appleboy/discord-action@0.0.3
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
@@ -158,5 +158,5 @@ jobs:
 
     steps:
       - name: Empty
-        if: github.event.inputs.notify-discord
+        if: inputs.notify-discord == true
         run: exit 0
