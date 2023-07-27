@@ -4,16 +4,16 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "The version to release"
+        description: "The version to release (eg: 'v1.0.0')"
         required: true
         type: string
       draft:
-        description: "Whether to create a draft release or not"
+        description: "Create a draft release?"
         required: false
         type: boolean
         default: true
       prerelease:
-        description: "Whether to create a prerelease or not"
+        description: "Create a prerelease?"
         required: false
         type: boolean
         default: true
