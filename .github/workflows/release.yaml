@@ -38,7 +38,7 @@ jobs:
           InputVersion: ${{ github.event.inputs.version }}
         run: |
           $tagVersion = $env:InputVersion.StartsWith('v') ? $env:InputVersion : "v" + $env:InputVersion
-          $rawVersion = $env:InputVersion.StartsWith('v') ? $env.InputVersion.Substring(1) : $env:InputVersion
+          $rawVersion = $env:InputVersion.StartsWith('v') ? $env:InputVersion.Substring(1) : $env:InputVersion
           $validation = [System.Version]::Parse($env.rawVersion)
           echo "tagVersion=$tagVersion" >> $env:GITHUB_OUTPUT
           echo "rawVersion=$rawVersion" >> $env:GITHUB_OUTPUT
