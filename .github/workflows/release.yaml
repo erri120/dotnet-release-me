@@ -158,5 +158,5 @@ jobs:
 
     steps:
       - name: Empty
-        if: inputs.notify-discord == true
+        if: inputs.notify-slack == true
         run: exit 0
