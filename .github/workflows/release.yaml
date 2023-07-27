@@ -54,9 +54,19 @@ jobs:
       ProjectFile: ${{ needs.transformInputs.outputs.ProjectFile }}
       RetentionDays: 1
 
+  build-windows:
+    needs: [ transformInputs ]
+    uses: ./.github/workflows/build-windows-pupnet.yaml
+    with:
+      AppVersion: ${{ needs.transformInputs.outputs.RawVersion }}
+      # this is a bit of a hack, you can't use environment variables here
+      # https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
+      ProjectFile: ${{ needs.transformInputs.outputs.ProjectFile }}
+      RetentionDays: 1
+
   release:
     runs-on: ubuntu-latest
-    needs: [ transformInputs, build-linux ]
+    needs: [ transformInputs, build-linux, build-windows ]
     permissions:
       contents: write
       discussions: write
@@ -73,6 +83,18 @@ jobs:
         with:
           name: ${{ needs.build-linux.outputs.ArtifactNameLinuxAppImage }}
           path: bin/LinuxAppImage
+
+      - name: Get Windows Archive
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.build-windows.outputs.ArtifactNameWindowsArchive }}
+          path: bin/WindowsArchive
+
+      - name: Get Windows Inno Setup
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.build-windows.outputs.ArtifactNameWindowsInnoSetup }}
+          path: bin/WindowsInnoSetup
 
       - name: List Artifacts
         shell: bash
