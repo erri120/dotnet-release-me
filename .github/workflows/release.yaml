@@ -80,7 +80,7 @@ jobs:
       RetentionDays: 1
       SignExecutable: true
     secrets:
-      PFX_BASE64: ${{ secrets.PFX_BASE64 }]
+      PFX_BASE64: ${{ secrets.PFX_BASE64 }}
       PFX_KEY: ${{ secrets.PFX_KEY }}
 
   release-github:
