@@ -109,6 +109,14 @@ jobs:
           SignExecutable: ${{ inputs.SignExecutable }}
           SigningCertificatePassword: ${{ secrets.PFX_KEY }}
 
+      - name: Sign Setup
+        if: inputs.BuildInnoSetup == true && inputs.SignExecutable == true
+        working-directory: ${{ steps.transformInputs.outputs.projectDir }}
+        run: ../../scripts/sign.ps1 Deploy/OUT
+        env:
+          SignExecutable: ${{ inputs.SignExecutable }}
+          SigningCertificatePassword: ${{ secrets.PFX_KEY }}
+
       - name: Remove PFX
         if: inputs.SignExecutable == true
         shell: pwsh
