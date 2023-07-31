@@ -1,3 +1,5 @@
 echo %~f0%
 
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '..\..\sign.ps1'"
+set "scriptPath=..\..\sign.ps1"
+
+powershell.exe -ExecutionPolicy Bypass -File "%scriptPath%"
