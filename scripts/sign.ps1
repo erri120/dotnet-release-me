@@ -1,3 +1,5 @@
+Write-Host Get-Location
+
 Write-Host $env:BUILD_APP_BIN
 Write-Host $env:APP_BASE_NAME
 
