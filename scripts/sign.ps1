@@ -8,7 +8,8 @@ Write-Host $env:APP_BASE_NAME
 $searchDirectory = $args[0];
 if ($searchDirectory) {
     Write-Host "Using search directory $searchDirectory"
-    $executableToSign = Get-ChildItem -Path $searchDirectory -File | Where-Object { $_.Extension -icontains "exe" } | Select-Object -First 1
+    Get-ChildItem -Path $searchDirectory | ForEach-Object -Process { Write-Host $_.FullName }
+    $executableToSign = Get-ChildItem -Path $searchDirectory | Where-Object { $_.Extension -eq ".exe" } | Select-Object -First 1
 } else {
     $executableToSign = [System.IO.Path]::Combine($env:BUILD_APP_BIN, $env:APP_BASE_NAME + ".exe")
 }
