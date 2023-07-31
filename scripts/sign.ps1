@@ -14,7 +14,7 @@ $executableToSign = $env:BUILD_APP_BIN
 #}
 
 # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md#installed-windows-sdks
-$rootDirectory = "C:\\Program Files (x86)\\Windows Kits\\bin\\";
+$rootDirectory = "C:\Program Files (x86)\Windows Kits\";
 
 Get-ChildItem -Path $rootDirectory -Recurse | Where-Object { $_.Name -icontains "signtool.exe" } | ForEach-Object -Process { Write-Host $_.FullName }
 
