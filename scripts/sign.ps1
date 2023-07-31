@@ -1,34 +1,35 @@
 $loc = Get-Location
 Write-Host $loc
 
+Write-Host $env:SignExecutable
 Write-Host $env:BUILD_APP_BIN
 Write-Host $env:APP_BASE_NAME
 
-$executableToSign = $env:BUILD_APP_BIN
+$executableToSign = [System.IO.Path]::Combine($env:BUILD_APP_BIN, $env:APP_BASE_NAME + ".exe")
+Write-Host $executableToSign
 
-#$executableToSign = $args[0]
-
-#if ($null -eq $executableToSign) {
-#    Write-Error "Missing first argument!";
-#    exit 1;
-#}
-
-# https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md#installed-windows-sdks
-$rootDirectory = "C:\Program Files (x86)\Windows Kits\";
-
-Get-ChildItem -Path $rootDirectory -Recurse | Where-Object { $_.Name -icontains "signtool.exe" } | ForEach-Object -Process { Write-Host $_.FullName }
-
-$signToolPath = Get-ChildItem -Path $rootDirectory -Recurse | Where-Object { $_.Name -icontains "signtool.exe" -and $_.Parent.Name -eq "x64" } | Select-Object -Last 1
-
-if ($null -eq $signToolPath) {
-    Write-Error "signtool.exe not found!"
+if (Test-Path $executableToSign -PathType Leaf) {
+    Write-Host "Signing $executableToSign";
+} else {
+    Write-Error "File $executableToSign doesn't exist!";
     exit 1;
 }
 
-$signToolPath = $signToolPath.FullName
-Write-Host "Found signtool.exe at: $signToolPath"
 
-Write-Host "Signing $executableToSign"
+# https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md#installed-windows-sdks
+#$rootDirectory = "C:\Program Files (x86)\Windows Kits\";
+#Get-ChildItem -Path $rootDirectory -Recurse | Where-Object { $_.Name -icontains "signtool.exe" } | ForEach-Object -Process { Write-Host $_.FullName }
+#$signToolPath = Get-ChildItem -Path $rootDirectory -Recurse | Where-Object { $_.Name -icontains "signtool.exe" -and $_.Parent.Name -eq "x64" } | Select-Object -Last 1
+
+$signToolPath = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+if (Test-Path $signToolPath -PathType Leaf) {
+    Write-Host "Found signtool.exe at: $signToolPath";
+} else {
+    Write-Error "Singing tool at $signToolPath doesn't exist!";
+    exit 1;
+}
+
+Write-Host "Signing $executableToSign";
 
 & $signToolPath sign /f "$env:SigningCertificate" /p "$env:SigningCertificatePassword" /td sha256 /fd sha256 /tr "$env:TimestampServer" $executableToSign
 $exitCode = $LASTEXITCODE

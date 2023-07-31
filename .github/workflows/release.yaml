@@ -78,6 +78,7 @@ jobs:
       # https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
       ProjectFile: ${{ needs.transformInputs.outputs.ProjectFile }}
       RetentionDays: 1
+      SignExecutable: true
 
   release-github:
     runs-on: ubuntu-latest
