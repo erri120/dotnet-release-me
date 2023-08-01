@@ -24,10 +24,10 @@ if (Test-Path $executableToSign -PathType Leaf) {
 # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md#installed-windows-sdks
 $rootDirectory = "C:\Program Files (x86)\Windows Kits\10\bin\";
 
-$sdkDirectory = Get-ChildItem -Path $rootDirectory | Sort-Object | Select-Object -First 1
-Write-Host $sdkDirectory
+$sdkDirectory = Get-ChildItem -Path $rootDirectory | Sort-Object -Descending | Select-Object -First 1
+Write-Host $sdkDirectory.FullName
 
-$signToolPath = [System.IO.Path]::Combine($sdkDirectory, "x64", "signtool.exe")
+$signToolPath = [System.IO.Path]::Combine($sdkDirectory.FullName, "x64", "signtool.exe")
 Write-Host $signToolPath
 
 if (Test-Path $signToolPath -PathType Leaf) {
