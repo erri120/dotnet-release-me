@@ -25,7 +25,7 @@ if (Test-Path $executableToSign -PathType Leaf) {
 $rootDirectory = "C:\Program Files (x86)\Windows Kits\10\bin\";
 Get-ChildItem -Path $rootDirectory | ForEach-Object -Process { Write-Host $_.Name }
 
-$sdkDirectory = Get-ChildItem -Path $rootDirectory -Name | Sort-Object -Descending | Select-Object -First 1
+$sdkDirectory = Get-ChildItem -Path $rootDirectory -Name | Where-Object { $_ -like "10*" } | Sort-Object -Descending | Select-Object -First 1
 Write-Host "Sdk Directory: $sdkDirectory"
 
 $signToolPath = [System.IO.Path]::Combine($rootDirectory, $sdkDirectory, "x64", "signtool.exe")
