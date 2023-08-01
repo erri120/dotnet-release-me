@@ -23,8 +23,6 @@ if (Test-Path $executableToSign -PathType Leaf) {
 
 # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md#installed-windows-sdks
 $rootDirectory = "C:\Program Files (x86)\Windows Kits\10\bin\";
-Get-ChildItem -Path $rootDirectory | ForEach-Object -Process { Write-Host $_.Name }
-
 $sdkDirectory = Get-ChildItem -Path $rootDirectory -Name | Where-Object { $_ -like "10*" } | Sort-Object -Descending | Select-Object -First 1
 Write-Host "Sdk Directory: $sdkDirectory"
 
