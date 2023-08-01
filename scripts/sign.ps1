@@ -1,9 +1,8 @@
-$loc = Get-Location
-Write-Host $loc
-
-Write-Host $env:SignExecutable
-Write-Host $env:BUILD_APP_BIN
-Write-Host $env:APP_BASE_NAME
+if ($env:SignExecutable -ne "true") {
+    Write-Host $env:SignExecutable
+    Write-Host "Signing the executable has been disabled."
+    exit 0
+}
 
 $searchDirectory = $args[0];
 if ($searchDirectory) {
@@ -22,13 +21,15 @@ if (Test-Path $executableToSign -PathType Leaf) {
     exit 1;
 }
 
-
 # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md#installed-windows-sdks
-#$rootDirectory = "C:\Program Files (x86)\Windows Kits\";
-#Get-ChildItem -Path $rootDirectory -Recurse | Where-Object { $_.Name -icontains "signtool.exe" } | ForEach-Object -Process { Write-Host $_.FullName }
-#$signToolPath = Get-ChildItem -Path $rootDirectory -Recurse | Where-Object { $_.Name -icontains "signtool.exe" -and $_.Parent.Name -eq "x64" } | Select-Object -Last 1
+$rootDirectory = "C:\Program Files (x86)\Windows Kits\10\bin\";
 
-$signToolPath = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+$sdkDirectory = Get-ChildItem -Path $rootDirectory | Sort-Object | Select-Object -First 1
+Write-Host $sdkDirectory
+
+$signToolPath = [System.IO.Path]::Combine($sdkDirectory, "x64", "signtool.exe")
+Write-Host $signToolPath
+
 if (Test-Path $signToolPath -PathType Leaf) {
     Write-Host "Found signtool.exe at: $signToolPath";
 } else {
